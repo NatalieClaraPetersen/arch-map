@@ -18,7 +18,8 @@ def main():
     # Build dependency graph
     print("\nBuilding dependency graph...")
     builder = DependencyGraphBuilder(CODE_ROOT_FOLDER, only_internal=False)
-    G = builder.build()
+    folder_depth_from_root = 1
+    G = builder.build(folder_depth_from_root)
     
     print(f"\nGraph Statistics:")
     print(f"  Nodes: {G.number_of_nodes()}")
@@ -26,7 +27,9 @@ def main():
     
     # Visualize
     print("\nGenerating visualization...")
-    GraphVisualizer.draw_static(G, size=(12, 8), node_size=10)
+    GraphVisualizer.draw_interactive(G)
+    # 
+    # GraphVisualizer.draw_static(G, size=(12, 8), node_size=10)
 
 
 if __name__ == "__main__":

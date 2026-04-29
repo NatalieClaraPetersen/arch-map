@@ -14,7 +14,7 @@ class DependencyGraphBuilder:
         self.extractor = ImportExtractor()
         self.internal_modules = set()
     
-    def build(self):
+    def build(self, n):
         """Build the dependency graph."""
         files = list(Path(self.code_root_folder).rglob("*.py"))
         
@@ -24,7 +24,7 @@ class DependencyGraphBuilder:
         for file in files:
             file_path = str(file)
             module_name = self.converter.file_path_to_module_name(file_path)
-            grouped_name = self._get_top_level_module(module_name)
+            grouped_name = self._get_n_level_module(module_name, n)
             self.internal_modules.add(grouped_name)
             
             if grouped_name not in G.nodes:
@@ -34,10 +34,10 @@ class DependencyGraphBuilder:
         for file in files:
             file_path = str(file)
             module_name = self.converter.file_path_to_module_name(file_path)
-            grouped_name = self._get_top_level_module(module_name)
+            grouped_name = self._get_n_level_module(module_name, n)
             
             for imported_module in self.extractor.extract_imports(file_path):
-                grouped_import = self._get_top_level_module(imported_module)
+                grouped_import = self._get_n_level_module(imported_module, n)
                 
                 if grouped_import not in G.nodes:
                     G.add_node(grouped_import)
@@ -50,6 +50,6 @@ class DependencyGraphBuilder:
         return G
     
     @staticmethod
-    def _get_top_level_module(module_name):
+    def _get_n_level_module(module_name, n):
         """Extract top-level module from full module name."""
-        return ".".join(module_name.split(".")[:1])
+        return ".".join(module_name.split(".")[:n])
