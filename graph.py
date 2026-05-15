@@ -39,11 +39,8 @@ class DependencyGraphBuilder:
             for imported_module in self.extractor.extract_imports(file_path):
                 grouped_import = self._get_n_level_module(imported_module, n)
                 
-                if grouped_import not in G.nodes:
-                    G.add_node(grouped_import)
-                
                 # Only add edge if not filtering for internal, or if the import is internal
-                if not self.only_internal or grouped_import in self.internal_modules:
+                if (not self.only_internal) or (grouped_import in self.internal_modules):
                     if grouped_name != grouped_import:
                         G.add_edge(grouped_name, grouped_import)
         
