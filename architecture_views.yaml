@@ -1,4 +1,5 @@
-code_root_folder: "./content/api"
+REPO_URL: "https://github.com/zeeguu/api.git"
+CODE_ROOT_FOLDER: "content/api/"
 save_location: "./diagrams"
 views:
   - name: Backend Core
