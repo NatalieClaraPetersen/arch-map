@@ -49,3 +49,10 @@ views:
     depth_config:
       root: "zeeguu"
       depth: 2
+  
+  - name: "everything_depth_2.html"
+    include:
+      - "*"
+    depth_config:
+      root: ""
+      depth: 2

@@ -1,6 +1,5 @@
 .venv/*
 .vscode/*
 content/*
-diagrams/*
 __pycache__
 lib/*
