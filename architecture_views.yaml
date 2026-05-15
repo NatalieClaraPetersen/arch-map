@@ -1,0 +1,58 @@
+REPO_URL: "https://github.com/zeeguu/api.git"
+CODE_ROOT_FOLDER: "content/api/"
+save_location: "./diagrams"
+views:
+  - name: "zeeguu_api.html"
+    include:
+      - "zeeguu.api.*"
+    exclude:
+      - "zeeguu.api.app.*"
+      - "zeeguu.api.cross_domain_app"
+      - "zeeguu.api.custom_fmd_graphs"
+    groups:
+      UTILS:
+        - "zeeguu.api.utils"
+        - "zeeguu.api.utils.*"
+      ENDPOINTS:
+        - "zeeguu.api.endpoints"
+        - "zeeguu.api.endpoints.*"
+      TEST:
+        - "zeeguu.api.test"
+        - "zeeguu.api.test.*"
+
+  - name: "zeeguu_overview.html"
+    include:
+      - "zeeguu.*"
+    groups:
+      CL:
+        - "zeeguu.cl"
+        - "zeeguu.cl.*"
+      API:
+        - "zeeguu.api"
+        - "zeeguu.api.*"
+      CORE:
+        - "zeeguu.core"
+        - "zeeguu.core.*"
+      CONFIG:
+        - "zeeguu.config"
+        - "zeeguu.config.*"
+      LOGGING:
+        - "zeeguu.logging"
+        - "zeeguu.logging.*"
+      OPERATIONS:
+        - "zeeguu.operations"
+        - "zeeguu.operations.*"
+
+  - name: "zeeguu_depth_2.html"
+    include:
+      - "zeeguu.*"
+    depth_config:
+      root: "zeeguu"
+      depth: 2
+  
+  - name: "everything_depth_2.html"
+    include:
+      - "*"
+    depth_config:
+      root: ""
+      depth: 2

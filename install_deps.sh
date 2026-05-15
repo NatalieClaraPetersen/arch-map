@@ -21,7 +21,7 @@ pip install --upgrade pip
 
 # Install dependencies
 echo "Installing dependencies..."
-pip install pyvis networkx matplotlib gitpython
+pip install pyvis networkx matplotlib gitpython pyyaml
 
 
 echo ""

@@ -48,7 +48,20 @@ class ImportExtractor:
                 # Handle 'from X import ...' statements
                 if isinstance(node, ast.ImportFrom):
                     if node.module:
-                        all_imports.append(node.module)
+                        # Resolve relative import statements: 'from .X import ...'
+                        if node.level > 0:
+                            # level=1 is ".", level=2 is ".." etc.
+                            parts = file_path.split(".")
+                            base = ".".join(parts[:len(parts) - (node.level - 1)])
+                            full_module = f"{base}.{node.module}"
+                            continue
+                        else:
+                            full_module = node.module
+                        all_imports.append(full_module)
+                        
+                        for alias in node.names:
+                            if alias.name != "*":
+                                all_imports.append(f"{node.module}.{alias.name}")
                 
                 # Handle 'import X' statements
                 elif isinstance(node, ast.Import):
@@ -60,3 +73,8 @@ class ImportExtractor:
             pass
         
         return all_imports
+
+    @staticmethod
+    def get_n_level_module(module_name, n):
+        """Extract top-level module from full module name eg.: n=2, zeeguu.core.model -> zeeguu.core"""
+        return ".".join(module_name.split(".")[:n])
