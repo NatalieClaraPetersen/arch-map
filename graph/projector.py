@@ -17,10 +17,7 @@ class ViewProjector:
         subgraph = graph.subgraph(included_nodes).copy()
 
         # Apply grouping
-        grouped_graph = ViewProjector._apply_groups(
-            subgraph,
-            view_config.groups,
-        )
+        grouped_graph = ViewProjector._apply_groups(subgraph, view_config.groups)
         
         return grouped_graph
 
@@ -45,16 +42,27 @@ class ViewProjector:
         # Create nodes
         for node in graph.nodes:
             grouped_node = node_to_group.get(node,node)
-            grouped_graph.add_node(grouped_node)
+
+            if grouped_graph.has_node(grouped_node):
+                grouped_graph.nodes[grouped_node]["count"] += 1
+            else:
+                grouped_graph.add_node(grouped_node, count=1)
+
 
         # Reconnect edges
         for source, target in graph.edges:
             grouped_source = node_to_group.get(source,source)
-
             grouped_target = node_to_group.get(target,target)
 
-            # avoid self-loop after collapsing
             if grouped_source != grouped_target:
-                grouped_graph.add_edge(grouped_source,grouped_target)
-
+                if grouped_graph.has_edge(grouped_source, grouped_target):
+                    grouped_graph[grouped_source][grouped_target]["count"] += 1
+                    grouped_graph[grouped_source][grouped_target]["label"] = str(grouped_graph[grouped_source][grouped_target]["count"])
+                else:
+                    grouped_graph.add_edge(
+                        grouped_source,
+                        grouped_target,
+                        count=1,
+                        label="1"
+                    )
         return grouped_graph

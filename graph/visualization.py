@@ -59,18 +59,30 @@ class GraphVisualizer:
             node_degrees = dict(G.degree())
             node_out_degrees = dict(G.out_degree()) if G.is_directed() else node_degrees
             node_in_degrees = dict(G.in_degree()) if G.is_directed() else node_degrees
-            max_degree = max(node_degrees.values()) if node_degrees else 1
-            min_degree = min(node_degrees.values()) if node_degrees else 1
-            
+
+            counts = [d["count"] for _, d in G.nodes(data=True)]
+            min_count = min(counts)
+            max_count = max(counts)
+
             for node in net.nodes:
-                degree = node_degrees.get(node['id'], 0)
                 out_degree = node_out_degrees.get(node['id'], 0)
                 in_degree = node_in_degrees.get(node['id'], 0)
-                size = 25 + (degree - min_degree) / (max_degree - min_degree) * 75 if max_degree > min_degree else 50
-                node['size'] = size
                 if out_degree == 0:
                     node['color'] = "#b1b1b1"
-                node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}"
+                
+                # Set node size based on how many modules are grouped together in the node
+                count = node['count']
+                size = (
+                    25 + (count - min_count) / (max_count - min_count) * 75
+                    if max_count > min_count else 50
+                )
+                node['size'] = size
+                
+                group_count_str=""
+                if count > 1:
+                  group_count_str=f"\nModules grouped together: {count}"
+
+                node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}{group_count_str}"
             
             print(f"Creating {output_file_path}...")
             net.write_html(output_file_path)
