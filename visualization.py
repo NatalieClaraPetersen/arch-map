@@ -46,10 +46,11 @@ class GraphVisualizer:
         """
         try:
             from pyvis.network import Network
+            output_file_path=f"results/{output_file}"
             
             net = Network(directed=True, notebook=False, height="750px", width="100%")
             net.from_nx(G)
-            net.force_atlas_2based()
+            net.force_atlas_2based(overlap=0.01)
             # Configure physics for better spacing
             net.toggle_physics(True)
             net.show_buttons(filter_=True)
@@ -71,8 +72,8 @@ class GraphVisualizer:
                     node['color'] = "#b1b1b1"
                 node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}"
             
-            print(f"Creating {output_file}...")
-            net.write_html(output_file)
+            print(f"Creating {output_file_path}...")
+            net.write_html(output_file_path)
             print(f"Interactive graph saved to {output_file}")
             print("Open in browser to interact with the graph!")
         
@@ -82,3 +83,43 @@ class GraphVisualizer:
         except Exception as e:
             print(f"Error creating interactive graph: {e}")
             print("Falling back to static matplotlib visualization...")
+
+from pathlib import Path
+
+def inject_bold_outgoing_edges(output_file):
+    html = Path(output_file).read_text()
+    extra_js = """
+      var network = drawGraph();
+
+      function resetEdgeStyles() {
+        edges.forEach(function(edge) {
+          edges.update({id: edge.id, width: 1, color: '#97c2fc'});
+        });
+      }
+
+      function highlightIngoing(nodeId) {
+        resetEdgeStyles();
+        var outgoing = edges.get({
+          filter: function(edge) {
+            return edge.to === nodeId;
+          }
+        });
+        outgoing.forEach(function(edge) {
+          edges.update({id: edge.id, width: 5, color: 'red'});
+        });
+      }
+
+      network.on("blurNode", function() {
+        resetEdgeStyles();
+      });
+
+      network.on("click", function(params) {
+        if (params.nodes.length === 0) {
+          resetEdgeStyles();
+        } else {
+          highlightIngoing(params.nodes[0]);
+        }
+      });
+    """
+    html = html.replace("drawGraph();", extra_js)
+    Path(output_file).write_text(html)
