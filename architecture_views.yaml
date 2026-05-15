@@ -6,7 +6,9 @@ views:
     include:
       - "zeeguu.api.*"
     exclude:
-      - "zeeguu.api.test.*"
+      - "zeeguu.api.app.*"
+      - "zeeguu.api.cross_domain_app"
+      - "zeeguu.api.custom_fmd_graphs"
     groups:
       UTILS:
         - "zeeguu.api.utils"
@@ -14,6 +16,9 @@ views:
       ENDPOINTS:
         - "zeeguu.api.endpoints"
         - "zeeguu.api.endpoints.*"
+      TEST:
+        - "zeeguu.api.test"
+        - "zeeguu.api.test.*"
 
   - name: "zeeguu_overview.html"
     include:
@@ -37,3 +42,10 @@ views:
       OPERATIONS:
         - "zeeguu.operations"
         - "zeeguu.operations.*"
+
+  - name: "zeeguu_depth_2.html"
+    include:
+      - "zeeguu.*"
+    depth_config:
+      root: "zeeguu"
+      depth: 2

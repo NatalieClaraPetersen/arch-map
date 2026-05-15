@@ -1,6 +1,6 @@
 from fnmatch import fnmatch
 import networkx as nx
-
+from pathlib import Path
 
 class ViewProjector:
 
@@ -18,7 +18,9 @@ class ViewProjector:
 
         # Apply grouping
         grouped_graph = ViewProjector._apply_groups(subgraph, view_config.groups)
-        
+        if view_config.depth_config:
+            grouped_graph = ViewProjector._apply_depth(grouped_graph, view_config.depth_config)
+
         return grouped_graph
 
     @staticmethod
@@ -27,6 +29,22 @@ class ViewProjector:
             fnmatch(value, pattern)
             for pattern in patterns
         )
+    
+    @staticmethod
+    def _apply_depth(graph, depth_config):
+        root = depth_config["root"]
+        depth = depth_config["depth"]
+        groups = {}
+
+        for node in graph.nodes:
+            if not node.startswith(root):
+                continue
+
+            parts = node.split(".")
+            group = ".".join(parts[:depth])
+            groups.setdefault(group, []).append(node)
+        
+        return ViewProjector._apply_groups(graph, groups)
     
     @staticmethod
     def _apply_groups(graph, groups):
@@ -47,7 +65,6 @@ class ViewProjector:
                 grouped_graph.nodes[grouped_node]["count"] += 1
             else:
                 grouped_graph.add_node(grouped_node, count=1)
-
 
         # Reconnect edges
         for source, target in graph.edges:
