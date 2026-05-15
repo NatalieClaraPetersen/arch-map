@@ -46,6 +46,17 @@ class DependencyGraphBuilder:
         
         return G
     
+    def print_graph_stats(G):
+        cycles = list(nx.simple_cycles(G))
+        nodes_no_in = [n for n in G.nodes if G.in_degree(n) == 0]
+
+        print(f"\nGraph Statistics:")
+        print(f"  #Nodes: {G.number_of_nodes()}")
+        print(f"  #Edges: {G.number_of_edges()}")
+        print(f"  #Cycles: {len(cycles)}")
+        print(f"  #Nodes never referenced: {len(nodes_no_in)}")
+        print(nodes_no_in)
+    
     @staticmethod
     def _get_n_level_module(module_name, n):
         """Extract top-level module from full module name."""

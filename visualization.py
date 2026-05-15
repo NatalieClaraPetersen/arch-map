@@ -68,7 +68,7 @@ class GraphVisualizer:
                 size = 25 + (degree - min_degree) / (max_degree - min_degree) * 75 if max_degree > min_degree else 50
                 node['size'] = size
                 if out_degree == 0:
-                    node['color'] = 'gray'
+                    node['color'] = "#b1b1b1"
                 node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}"
             
             print(f"Creating {output_file}...")
