@@ -1,2 +1,4 @@
 content/*
 dependency_graph.html
+__pycache__
+lib/*
