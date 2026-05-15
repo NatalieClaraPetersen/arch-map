@@ -2,7 +2,7 @@ REPO_URL: "https://github.com/zeeguu/api.git"
 CODE_ROOT_FOLDER: "content/api/"
 save_location: "./diagrams"
 views:
-  - name: Backend Core
+  - name: "zeeguu_api.html"
     include:
       - "zeeguu.api.*"
     exclude:
@@ -14,6 +14,26 @@ views:
       ENDPOINTS:
         - "zeeguu.api.endpoints"
         - "zeeguu.api.endpoints.*"
-    options:
-      collapse_groups: true
-      external_dependencies: false
+
+  - name: "zeeguu_overview.html"
+    include:
+      - "zeeguu.*"
+    groups:
+      CL:
+        - "zeeguu.cl"
+        - "zeeguu.cl.*"
+      API:
+        - "zeeguu.api"
+        - "zeeguu.api.*"
+      CORE:
+        - "zeeguu.core"
+        - "zeeguu.core.*"
+      CONFIG:
+        - "zeeguu.config"
+        - "zeeguu.config.*"
+      LOGGING:
+        - "zeeguu.logging"
+        - "zeeguu.logging.*"
+      OPERATIONS:
+        - "zeeguu.operations"
+        - "zeeguu.operations.*"

@@ -25,7 +25,7 @@ def main():
     for view in config.views:
         subgraph = ViewProjector.project(G,view)
         DependencyGraphBuilder.print_graph_stats(subgraph)
-        GraphVisualizer.draw_interactive(subgraph)
+        GraphVisualizer.draw_interactive(subgraph,view.name)
     
     # GraphVisualizer.draw_static(G, size=(12, 8), node_size=10)
 
