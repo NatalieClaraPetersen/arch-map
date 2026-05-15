@@ -46,7 +46,7 @@ class GraphVisualizer:
         """
         try:
             from pyvis.network import Network
-            output_file_path=f"results/{output_file}"
+            output_file_path=f"diagrams/{output_file}"
             
             net = Network(directed=True, notebook=False, height="750px", width="100%")
             net.from_nx(G)

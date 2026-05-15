@@ -1,0 +1,18 @@
+code_root_folder: "./content/api"
+save_location: "./diagrams"
+views:
+  - name: Backend Core
+    include:
+      - "content/api/zeeguu"
+    exclude:
+      - "operations/*"
+    groups:
+      API:
+        - "content/api/zeeguu/api/*"
+      CORE:
+        - "content/api/zeeguu/core/*"
+      OPERATIONS:
+        - "content/api/zeeguu/operations/*"
+    options:
+      collapse_groups: true
+      external_dependencies: false
