@@ -1,7 +1,7 @@
 """Main entry point for dependency graph analysis."""
-from repository import RepositoryManager
-from graph import DependencyGraphBuilder
-from visualization import GraphVisualizer
+from graph.repository import RepositoryManager
+from graph.graph import DependencyGraphBuilder
+from graph.visualization import GraphVisualizer
 
 
 def main():

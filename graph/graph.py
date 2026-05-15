@@ -1,7 +1,7 @@
 """Dependency graph building."""
 import networkx as nx
 from pathlib import Path
-from parser import ModuleNameConverter, ImportExtractor
+from graph.parser import ModuleNameConverter, ImportExtractor
 
 
 class DependencyGraphBuilder:
