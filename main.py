@@ -3,6 +3,7 @@ from graph.repository import RepositoryManager
 from graph.graph import DependencyGraphBuilder
 from graph.visualization import GraphVisualizer
 from graph.config_loader import load_views_config
+from graph.projector import ViewProjector
 
 def main():
     """Main entry point."""
@@ -18,12 +19,13 @@ def main():
     builder = DependencyGraphBuilder(config.CODE_ROOT_FOLDER, only_internal=False)
     folder_depth_from_root = 1
     G = builder.build(folder_depth_from_root)
-    DependencyGraphBuilder.print_graph_stats(G)
     
     # Visualize
     print("\nGenerating visualization...")
     for view in config.views:
-        GraphVisualizer.draw_interactive(G)
+        subgraph = ViewProjector.project(G,view)
+        DependencyGraphBuilder.print_graph_stats(subgraph)
+        GraphVisualizer.draw_interactive(subgraph)
     
     # GraphVisualizer.draw_static(G, size=(12, 8), node_size=10)
 

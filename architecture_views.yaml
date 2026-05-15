@@ -4,16 +4,16 @@ save_location: "./diagrams"
 views:
   - name: Backend Core
     include:
-      - "content/api/zeeguu"
+      - "zeeguu.api.*"
     exclude:
-      - "operations/*"
+      - "zeeguu.api.test.*"
     groups:
-      API:
-        - "content/api/zeeguu/api/*"
-      CORE:
-        - "content/api/zeeguu/core/*"
-      OPERATIONS:
-        - "content/api/zeeguu/operations/*"
+      UTILS:
+        - "zeeguu.api.utils"
+        - "zeeguu.api.utils.*"
+      ENDPOINTS:
+        - "zeeguu.api.endpoints"
+        - "zeeguu.api.endpoints.*"
     options:
       collapse_groups: true
       external_dependencies: false
