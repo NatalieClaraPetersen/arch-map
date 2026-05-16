@@ -22,9 +22,10 @@ class GraphVisualizer:
             net = Network(directed=True, notebook=False, height="750px", width="100%")
             net.from_nx(G)
             net.force_atlas_2based(overlap=0.01)
+            
             # Configure physics for better spacing
             net.toggle_physics(True)
-            net.show_buttons(filter_=True)
+            net.show_buttons('physics')
             
             # Calculate node sizes based on degree
             node_degrees = dict(G.degree())
