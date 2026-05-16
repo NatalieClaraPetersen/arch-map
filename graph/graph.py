@@ -14,7 +14,7 @@ class DependencyGraphBuilder:
         self.extractor = ImportExtractor()
         self.internal_modules = set()
     
-    def build(self, n):
+    def build(self):
         """Build the dependency graph."""
         files = list(Path(self.code_root_folder).rglob("*.py"))
         G = nx.DiGraph()

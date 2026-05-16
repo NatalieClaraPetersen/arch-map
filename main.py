@@ -17,18 +17,18 @@ def main():
     # Build dependency graph
     print("\nBuilding dependency graph...")
     builder = DependencyGraphBuilder(config.CODE_ROOT_FOLDER, only_internal=False)
-    folder_depth_from_root = 1
-    G = builder.build(folder_depth_from_root)
+    G = builder.build()
     
     # Visualize
     print("\nGenerating visualization...")
     for view in config.views:
         subgraph = ViewProjector.project(G,view)
         DependencyGraphBuilder.print_graph_stats(subgraph)
-        GraphVisualizer.draw_interactive(subgraph,view.name)
-    
-    # GraphVisualizer.draw_static(G, size=(12, 8), node_size=10)
-
+        GraphVisualizer.draw_interactive(
+            subgraph,
+            output_dir=config.save_location,
+            output_file=view.name
+        )
 
 if __name__ == "__main__":
     main()

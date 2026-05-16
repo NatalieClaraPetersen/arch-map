@@ -36,7 +36,7 @@ class GraphVisualizer:
         plt.show()
     
     @staticmethod
-    def draw_interactive(G, output_file="dependency_graph.html"):
+    def draw_interactive(G, output_dir="diagrams", output_file="dependency_graph.html"):
         """
         Draw graph using Pyvis (interactive).
         
@@ -46,7 +46,7 @@ class GraphVisualizer:
         """
         try:
             from pyvis.network import Network
-            output_file_path=f"diagrams/{output_file}"
+            output_file_path=f"{output_dir}/{output_file}"
             
             net = Network(directed=True, notebook=False, height="750px", width="100%")
             net.from_nx(G)
