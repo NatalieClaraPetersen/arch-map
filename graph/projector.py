@@ -74,12 +74,10 @@ class ViewProjector:
             if grouped_source != grouped_target:
                 if grouped_graph.has_edge(grouped_source, grouped_target):
                     grouped_graph[grouped_source][grouped_target]["count"] += 1
-                    grouped_graph[grouped_source][grouped_target]["label"] = str(grouped_graph[grouped_source][grouped_target]["count"])
                 else:
                     grouped_graph.add_edge(
                         grouped_source,
                         grouped_target,
                         count=1,
-                        label="1"
                     )
         return grouped_graph

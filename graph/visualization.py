@@ -27,7 +27,7 @@ class GraphVisualizer:
             net.toggle_physics(True)
             net.show_buttons('physics')
             
-            # Calculate node sizes based on degree
+            # Calculate node degrees
             node_degrees = dict(G.degree())
             node_out_degrees = dict(G.out_degree()) if G.is_directed() else node_degrees
             node_in_degrees = dict(G.in_degree()) if G.is_directed() else node_degrees
@@ -55,7 +55,11 @@ class GraphVisualizer:
                   group_count_str=f"\nModules grouped together: {count}"
 
                 node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}{group_count_str}"
-            
+
+            for edge in net.edges:
+                edge["label"] = str(edge["count"])
+                # edge["value"] = edge["count"]
+
             print(f"Creating {output_file_path}...")
             net.write_html(output_file_path)
             print(f"Interactive graph saved to {output_file}")
