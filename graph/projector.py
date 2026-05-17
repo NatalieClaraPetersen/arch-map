@@ -16,12 +16,15 @@ class ViewProjector:
 
         subgraph = graph.subgraph(included_nodes).copy()
 
-        # Apply grouping
-        grouped_graph = ViewProjector._apply_groups(subgraph, view_config.groups)
+        # Apply depth
         if view_config.depth_config:
-            grouped_graph = ViewProjector._apply_depth(grouped_graph, view_config.depth_config)
+            subgraph = ViewProjector._apply_depth(subgraph, view_config.depth_config)
+        
+        # Apply groups
+        if view_config.groups:
+            subgraph = ViewProjector._apply_groups(subgraph, view_config.groups)
 
-        return grouped_graph
+        return subgraph
 
     @staticmethod
     def _matches_any(value, patterns):
@@ -60,11 +63,11 @@ class ViewProjector:
         # Create nodes
         for node in graph.nodes:
             grouped_node = node_to_group.get(node,node)
-
+            existing_count = graph.nodes[node].get("count", 1) # if not previously grouped default to 1
             if grouped_graph.has_node(grouped_node):
-                grouped_graph.nodes[grouped_node]["count"] += 1
+                grouped_graph.nodes[grouped_node]["count"] += existing_count
             else:
-                grouped_graph.add_node(grouped_node, count=1)
+                grouped_graph.add_node(grouped_node, count=existing_count)
 
         # Reconnect edges
         for source, target in graph.edges:
@@ -72,12 +75,13 @@ class ViewProjector:
             grouped_target = node_to_group.get(target,target)
 
             if grouped_source != grouped_target:
+                existing_edge_count = graph[source][target].get("count", 1) # if not previously grouped default to 1
                 if grouped_graph.has_edge(grouped_source, grouped_target):
-                    grouped_graph[grouped_source][grouped_target]["count"] += 1
+                    grouped_graph[grouped_source][grouped_target]["count"] += existing_edge_count
                 else:
                     grouped_graph.add_edge(
                         grouped_source,
                         grouped_target,
-                        count=1,
+                        count=existing_edge_count,
                     )
         return grouped_graph

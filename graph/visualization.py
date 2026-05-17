@@ -55,11 +55,13 @@ class GraphVisualizer:
                 node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}{group_count_str}"
 
             for edge in net.edges:
+                edge["font"] = {"align": "middle"}
                 edge["value"] = edge["count"]
                 edge["label"] = str(edge["count"])
             
             print(f"Creating {output_file_path}...")
             net.write_html(output_file_path)
+            
             print(f"Interactive graph saved to {output_file}")
             print("Open in browser to interact with the graph!")
         
