@@ -37,7 +37,7 @@ class ViewProjector:
         groups = {}
 
         for node in graph.nodes:
-            if not node.startswith(root):
+            if (not node.startswith(root)) and root != '*':
                 continue
 
             parts = node.split(".")

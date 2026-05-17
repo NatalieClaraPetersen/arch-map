@@ -16,9 +16,9 @@ def main():
     
     # Build dependency graph
     print("\nBuilding dependency graph...")
-    builder = DependencyGraphBuilder(config.CODE_ROOT_FOLDER, only_internal=False)
+    builder = DependencyGraphBuilder(config.CODE_ROOT_FOLDER, only_internal=True)
     G = builder.build()
-    
+
     # Visualize
     print("\nGenerating visualization...")
     for view in config.views:

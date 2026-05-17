@@ -74,7 +74,11 @@ class ImportExtractor:
                         else:
                             full_module = node.module
                         
-                        all_imports.append(full_module)
+                        module_path = self.converter.module_name_to_file_path(full_module)
+                        if os.path.exists(module_path):
+                            all_imports.append(full_module)
+                        else:
+                            continue
                         
                         for alias in node.names:
                             if alias.name != "*":
@@ -86,8 +90,10 @@ class ImportExtractor:
                 # Handle 'import X' statements
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
-                        all_imports.append(alias.name)
-        
+                        module_path = self.converter.module_name_to_file_path(alias.name)
+                        if os.path.exists(module_path):
+                            all_imports.append(alias.name)
+                
         except (SyntaxError, IOError, UnicodeDecodeError):
             # Return empty list if file can't be parsed
             pass

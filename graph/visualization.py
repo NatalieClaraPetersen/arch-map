@@ -1,7 +1,5 @@
 """Graph visualization utilities."""
-import matplotlib.pyplot as plt
-import networkx as nx
-
+from pathlib import Path
 
 class GraphVisualizer:
     """Handles graph visualization with matplotlib and Pyvis."""
@@ -57,9 +55,9 @@ class GraphVisualizer:
                 node['title'] = f"{node['id']}\nIndegree: {in_degree}\nOutdegree: {out_degree}{group_count_str}"
 
             for edge in net.edges:
+                edge["value"] = edge["count"]
                 edge["label"] = str(edge["count"])
-                # edge["value"] = edge["count"]
-
+            
             print(f"Creating {output_file_path}...")
             net.write_html(output_file_path)
             print(f"Interactive graph saved to {output_file}")
@@ -71,8 +69,7 @@ class GraphVisualizer:
         except Exception as e:
             print(f"Error creating interactive graph: {e}")
             print("Falling back to static matplotlib visualization...")
-
-from pathlib import Path
+  
 
 def inject_bold_outgoing_edges(output_file):
     html = Path(output_file).read_text()
