@@ -11,7 +11,7 @@ class DependencyGraphBuilder:
         self.code_root_folder = code_root_folder
         self.only_internal = only_internal
         self.converter = ModuleNameConverter(code_root_folder)
-        self.extractor = ImportExtractor()
+        self.extractor = ImportExtractor(self.converter)
         self.internal_modules = set()
     
     def build(self):
