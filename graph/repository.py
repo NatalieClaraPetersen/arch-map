@@ -41,6 +41,11 @@ class RepositoryManager:
         try:
             print(f"Pulling latest changes from {target_path}...")
             repo = Repo(target_path)
+            
+            # Discard local changes before pulling
+            repo.git.checkout("--", ".")
+            repo.git.clean("-fd")
+            
             repo.remotes.origin.pull()
             print("Pull successful")
             return True

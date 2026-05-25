@@ -2,57 +2,104 @@ REPO_URL: "https://github.com/zeeguu/api.git"
 CODE_ROOT_FOLDER: "content/api/"
 save_location: "./diagrams"
 views:
-  - name: "zeeguu_api.html"
+  - name: "everything_depth_1.html"
     include:
-      - "zeeguu.api.*"
-    exclude:
-      - "zeeguu.api.app.*"
-      - "zeeguu.api.cross_domain_app"
-      - "zeeguu.api.custom_fmd_graphs"
-    groups:
-      UTILS:
-        - "zeeguu.api.utils"
-        - "zeeguu.api.utils.*"
-      ENDPOINTS:
-        - "zeeguu.api.endpoints"
-        - "zeeguu.api.endpoints.*"
-      TEST:
-        - "zeeguu.api.test"
-        - "zeeguu.api.test.*"
-
-  - name: "zeeguu_overview.html"
-    include:
-      - "zeeguu.*"
-    groups:
-      CL:
-        - "zeeguu.cl"
-        - "zeeguu.cl.*"
-      API:
-        - "zeeguu.api"
-        - "zeeguu.api.*"
-      CORE:
-        - "zeeguu.core"
-        - "zeeguu.core.*"
-      CONFIG:
-        - "zeeguu.config"
-        - "zeeguu.config.*"
-      LOGGING:
-        - "zeeguu.logging"
-        - "zeeguu.logging.*"
-      OPERATIONS:
-        - "zeeguu.operations"
-        - "zeeguu.operations.*"
-
-  - name: "zeeguu_depth_2.html"
-    include:
-      - "zeeguu.*"
+      - "*"
     depth_config:
-      root: "zeeguu"
-      depth: 2
-  
+      root: "*"
+      depth: 1
+
   - name: "everything_depth_2.html"
     include:
       - "*"
     depth_config:
-      root: ""
+      root: "*"
       depth: 2
+  
+  - name: "everything_depth_2_grouped.html"
+    include:
+      - "*"
+    groups: # these would be very unfolded at depth 2 (messy)
+      stanza_service:
+      - "stanza_service*"
+      setup:
+      - "setup*"
+      asr_service:
+      - "asr_service*"
+      env_var_defs_default:
+      - "env_var_defs_default*"
+      tools:
+      - "tools*"
+    depth_config:
+      root: "*"
+      depth: 2
+  
+  - name: "zeeguu_api.html"
+    include:
+      - "zeeguu.api.*"
+    exclude:
+      - "zeeguu.api.app*"
+      - "zeeguu.api.cross_domain_app"
+      - "zeeguu.api.custom_fmd_graphs"
+    groups:
+      utils:
+        - "zeeguu.api.utils*"
+      endpoints:
+        - "zeeguu.api.endpoints*"
+      test:
+        - "zeeguu.api.test*"
+
+  - name: "zeeguu_overview.html"
+    include:
+      - "zeeguu*"
+    groups:
+      CL:
+        - "zeeguu.cl*"
+      API:
+        - "zeeguu.api*"
+      CORE:
+        - "zeeguu.core*"
+      CONFIG:
+        - "zeeguu.config*"
+      LOGGING:
+        - "zeeguu.logging*"
+      OPERATIONS:
+        - "zeeguu.operations*"
+
+  - name: "zeeguu_depth_1.html"
+    include:
+      - "zeeguu*"
+    depth_config:
+      root: "zeeguu"
+      depth: 2
+
+  - name: "zeeguu_depth_2.html"
+    include:
+      - "zeeguu*"
+    exclude:
+      - "zeeguu.core.test*"
+      - "zeeguu.api.test*"
+    depth_config:
+      root: "zeeguu"
+      depth: 3
+
+  - name: "zeeguu_api_depth_3_endpoints_grouped_and_no_tests.html"
+    include:
+      - "zeeguu.api*"
+    exclude:
+      - "zeeguu.api.test*"
+    groups:
+      endpoints:
+      - "zeeguu.api.endpoints*"
+    depth_config:
+      root: "*"
+      depth: 4
+
+  - name: "zeeguu_core_depth_2.html"
+    include:
+      - "zeeguu.core*"
+    depth_config:
+      root: "*"
+      depth: 3
+
+  
