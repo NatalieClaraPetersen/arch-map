@@ -4,6 +4,7 @@ from graph.graph import DependencyGraphBuilder
 from graph.visualization import GraphVisualizer
 from graph.config_loader import load_views_config
 from graph.projector import ViewProjector
+import subprocess
 
 def main():
     """Main entry point."""
@@ -11,8 +12,22 @@ def main():
     config = load_views_config("architecture_views.yaml")
     
     # Clone repository if needed
-    RepositoryManager.clone_if_needed(config.REPO_URL, config.CODE_ROOT_FOLDER)
-    RepositoryManager.pull(config.CODE_ROOT_FOLDER)
+    RepositoryManager.clone_if_needed(repo_url=config.REPO_URL, target_path=config.CODE_ROOT_FOLDER)
+    RepositoryManager.pull(target_path=config.CODE_ROOT_FOLDER)
+    
+    # Remove unused imports in target repo (locally)
+    subprocess.run(
+        [
+            "autoflake",
+            "--remove-all-unused-imports",
+            "--in-place",
+            "--recursive",
+            ".",
+            "--ignore-init-module-imports",
+        ],
+        cwd=config.CODE_ROOT_FOLDER,
+        check=True,
+    )
     
     # Build dependency graph
     print("\nBuilding dependency graph...")

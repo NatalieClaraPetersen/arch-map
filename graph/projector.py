@@ -1,6 +1,5 @@
 from fnmatch import fnmatch
 import networkx as nx
-from pathlib import Path
 
 class ViewProjector:
 
