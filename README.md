@@ -1,15 +1,13 @@
-View the html files in the ./diagrams folder
+View the html files in the `diagrams` folder
 
-Every diagram is specified in the ./architecture_views.yaml
+Every diagram is specified in the `architecture_views.yaml`, here we also define the repo we want to generate model views for (REPO_URL), where to clone the repo to (CODE_ROOT_FOLDER) and where to save the diagrams (save_location).
 
-To remove any unused imports in the cloned repo, we use autoflake, so make sure to install it:
-```bash
-pip install autoflake
-# You can also try autoflake out manually:
-autoflake --remove-all-unused-imports --in-place --recursive content/  --ignore-init-module-imports
+To install all dependecies run:
+```shell
+bash install_deps.sh
 ```
 
-Each run of the following command, clones/pulls the target repo, removes all unused imports from the target repo and remakes all the views specified in architecture_views.yaml:
+Each run of the following command, clones/pulls the target repo and remakes all the views specified in `architecture_views.yaml`:
 ```shell
 python3 main.py
 ```

@@ -15,20 +15,6 @@ def main():
     RepositoryManager.clone_if_needed(repo_url=config.REPO_URL, target_path=config.CODE_ROOT_FOLDER)
     RepositoryManager.pull(target_path=config.CODE_ROOT_FOLDER)
     
-    # Remove unused imports in target repo (locally)
-    subprocess.run(
-        [
-            "autoflake",
-            "--remove-all-unused-imports",
-            "--in-place",
-            "--recursive",
-            ".",
-            "--ignore-init-module-imports",
-        ],
-        cwd=config.CODE_ROOT_FOLDER,
-        check=True,
-    )
-    
     # Build dependency graph
     print("\nBuilding dependency graph...")
     builder = DependencyGraphBuilder(config.CODE_ROOT_FOLDER, only_internal=True)
