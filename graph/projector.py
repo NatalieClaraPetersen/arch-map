@@ -23,6 +23,10 @@ class ViewProjector:
         if view_config.groups:
             subgraph = ViewProjector._apply_groups(subgraph, view_config.groups)
 
+        # MVP reflexion model
+        if view_config.allowed_edges_to:
+            subgraph = ViewProjector._detect_unallowed_edges(subgraph, view_config.allowed_edges_to)
+        
         return subgraph
 
     @staticmethod
@@ -84,3 +88,24 @@ class ViewProjector:
                         count=existing_edge_count,
                     )
         return grouped_graph
+    
+    @staticmethod
+    def _detect_unallowed_edges(graph, allowed_edges_to):
+        for source, target in graph.edges:
+            allowed_targets = None
+            for pattern, targets in allowed_edges_to.items():
+                if ViewProjector._matches_any(source, [pattern]):
+                    allowed_targets = targets
+                    break
+
+            if allowed_targets is None:
+                # no allowed_edges_to rule specified for this node
+                continue
+
+            is_allowed = ViewProjector._matches_any(target, allowed_targets)
+            if not is_allowed:
+                graph[source][target]["forbidden"] = True
+            else:
+                graph[source][target]["forbidden"] = False
+
+        return graph

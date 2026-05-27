@@ -26,6 +26,7 @@ def load_views_config(path):
                 include=view_data.get("include", []),
                 exclude=view_data.get("exclude", []),
                 groups=view_data.get("groups", {}),
+                allowed_edges_to=view_data.get("allowed_edges_to", {}),
                 depth_config=view_data.get("depth_config", {}),
             )
         )

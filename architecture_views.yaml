@@ -30,6 +30,46 @@ views:
       - "env_var_defs_default*"
       tools:
       - "tools*"
+      shared_infrastructure:
+      - "zeeguu.logging*"
+      - "zeeguu.config*"
+    depth_config:
+      root: "*"
+      depth: 2
+
+  - name: "everything_depth_2_grouped_reflexion.html"
+    include:
+      - "*"
+    groups: # these would be very unfolded at depth 2 (messy)
+      stanza_service:
+      - "stanza_service*"
+      setup:
+      - "setup*"
+      asr_service:
+      - "asr_service*"
+      env_var_defs_default:
+      - "env_var_defs_default*"
+      tools:
+      - "tools*"
+      shared_infrastructure:
+      - "zeeguu.logging*"
+      - "zeeguu.config*"
+    allowed_edges_to:
+      tools:
+      - "zeeguu.*"
+      - "shared_infrastructure"
+      start:
+      - "zeeguu.api"
+      "zeeguu.operations":
+      - "zeeguu.*"
+      - "shared_infrastructure"
+      "zeeguu.cl":
+      - "zeeguu.api"
+      "zeeguu.api":
+      - "zeeguu.core"
+      - "shared_infrastructure"
+      "zeeguu.core":
+      - "shared_infrastructure"
     depth_config:
       root: "*"
       depth: 2
@@ -49,26 +89,31 @@ views:
       test:
         - "zeeguu.api.test*"
 
-  - name: "zeeguu_overview.html"
-    include:
-      - "zeeguu*"
-    groups:
-      CL:
-        - "zeeguu.cl*"
-      API:
-        - "zeeguu.api*"
-      CORE:
-        - "zeeguu.core*"
-      CONFIG:
-        - "zeeguu.config*"
-      LOGGING:
-        - "zeeguu.logging*"
-      OPERATIONS:
-        - "zeeguu.operations*"
-
   - name: "zeeguu_depth_1.html"
     include:
       - "zeeguu*"
+    depth_config:
+      root: "zeeguu"
+      depth: 2
+
+  - name: "zeeguu_depth_1_reflexion.html"
+    include:
+      - "zeeguu*"
+    groups:
+      shared_infrastructure:
+        - "zeeguu.logging*"
+        - "zeeguu.config*"
+    allowed_edges_to:
+      "zeeguu.operations":
+      - "zeeguu.*"
+      - "shared_infrastructure"
+      "zeeguu.cl":
+      - "zeeguu.api"
+      "zeeguu.api":
+      - "zeeguu.core"
+      - "shared_infrastructure"
+      "zeeguu.core":
+      - "shared_infrastructure"
     depth_config:
       root: "zeeguu"
       depth: 2

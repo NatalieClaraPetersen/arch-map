@@ -58,6 +58,11 @@ class GraphVisualizer:
                 edge["font"] = {"align": "middle"}
                 edge["value"] = edge["count"]
                 edge["label"] = str(edge["count"])
+                if edge.get("forbidden") == True:
+                    edge["color"] = "red"
+                elif edge.get("forbidden") == None:
+                    edge["color"] = "#7b7474"
+                  
             
             print(f"Creating {output_file_path}...")
             net.write_html(output_file_path)
