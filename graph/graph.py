@@ -8,7 +8,6 @@ class DependencyGraphBuilder:
     """Builds a dependency graph from Python source code."""
     
     def __init__(self, code_root_folder, only_internal=False):
-        self.code_root_folder = code_root_folder
         self.only_internal = only_internal
         self.converter = ModuleNameConverter(code_root_folder)
         self.extractor = ImportExtractor(self.converter)
@@ -16,19 +15,18 @@ class DependencyGraphBuilder:
     
     def build(self):
         """Build the dependency graph."""
-        files = list(Path(self.code_root_folder).rglob("*.py"))
+        python_files = self.extractor.get_python_files()
         G = nx.DiGraph()
         
         # First pass: add all nodes and collect internal modules
-        for file in files:
+        for file in python_files:
             file_path = str(file)
             module_name = self.converter.file_path_to_module_name(file_path)
             self.internal_modules.add(module_name)
             G.add_node(module_name)
-            
         
         # Second pass: add edges
-        for file in files:
+        for file in python_files:
             file_path = str(file)
             module_name = self.converter.file_path_to_module_name(file_path)
             

@@ -1,7 +1,7 @@
 """Python AST parsing and import extraction."""
 import ast
 import os
-
+from pathlib import Path
 
 class ModuleNameConverter:
     """Converts file paths to module names."""
@@ -41,6 +41,11 @@ class ImportExtractor:
 
     def __init__(self, converter: ModuleNameConverter):
         self.converter = converter
+        
+    def get_python_files(self):
+        """Find all Python files in the repository."""
+        path = Path(self.converter.code_root_folder)
+        return sorted(path.rglob("*.py"))
 
     def extract_imports(self, file_path):
         """

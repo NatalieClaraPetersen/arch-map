@@ -1,8 +1,6 @@
 """Repository management utilities."""
 import os
 from git import Repo
-from pathlib import Path
-
 
 class RepositoryManager:
     """Manages repository cloning and file discovery."""
@@ -41,23 +39,9 @@ class RepositoryManager:
         try:
             print(f"Pulling latest changes from {target_path}...")
             repo = Repo(target_path)
-            
-            # Discard local changes before pulling
-            repo.git.checkout("--", ".")
-            repo.git.clean("-fd")
-            
             repo.remotes.origin.pull()
             print("Pull successful")
             return True
         except Exception as e:
             print(f"Error pulling repository: {e}")
             return False
-    
-    def get_python_files(self):
-        """Find all Python files in the repository."""
-        path = Path(self.code_root_folder)
-        return sorted(path.rglob("*.py"))
-    
-    def file_path(self, file_name):
-        """Get full path for a file name."""
-        return os.path.join(self.code_root_folder, file_name)
