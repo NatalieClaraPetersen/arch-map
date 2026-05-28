@@ -9,12 +9,21 @@ views:
       root: "*"
       depth: 1
 
-  - name: "everything_depth_2.html"
+  - name: "everything_depth_1_reflexion.html"
     include:
       - "*"
+    allowed_edges_to:
+      tools:
+      - "zeeguu"
+      start:
+      - "zeeguu"
+      install_stanza_models:
+      - "zeeguu"
+      zeeguu:
+      - "" # nothing
     depth_config:
       root: "*"
-      depth: 2
+      depth: 1
   
   - name: "everything_depth_2_grouped.html"
     include:
@@ -118,6 +127,45 @@ views:
       root: "zeeguu"
       depth: 2
 
+  - name: "zeeguu_depth_1_and_tools.html"
+    include:
+      - "zeeguu*"
+      - "tools*"
+    groups:
+      tools:
+      - "tools*"
+    depth_config:
+      root: "zeeguu"
+      depth: 2
+
+  - name: "zeeguu_depth_1_and_tools_reflexion.html"
+    include:
+      - "zeeguu*"
+      - "tools*"
+    groups:
+      tools:
+        - "tools*"
+      shared_infrastructure:
+        - "zeeguu.logging*"
+        - "zeeguu.config*"
+    allowed_edges_to:
+      tools:
+      - "zeeguu.*"
+      - "shared_infrastructure"
+      "zeeguu.operations":
+      - "zeeguu.*"
+      - "shared_infrastructure"
+      "zeeguu.cl":
+      - "zeeguu.api"
+      "zeeguu.api":
+      - "zeeguu.core"
+      - "shared_infrastructure"
+      "zeeguu.core":
+      - "shared_infrastructure"
+    depth_config:
+      root: "zeeguu"
+      depth: 2
+  
   - name: "zeeguu_depth_2.html"
     include:
       - "zeeguu*"
